@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+    <body>
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+        <div id="app">
+            <input type="text">
+            <ul>
+                <li v-for="fruta in frutas">
+                    {{fruta}}
+                </li>
+            </ul>
+            <button @click="inserirFruta()">
+                Inserir item
+            </button>
+        </div>
+
+        <script>
+            var app = new Vue ({
+                el: "#app",
+                data() {
+                    return {
+                        frutas: ['teste1', 'teste2', 'laranja']
+
+                    }
+                },
+                methods: {
+                    inserirFruta() {
+                        this.frutas.push()
+                        
+                    }
+                }
+            })
+        </script>
+    </body>
+</html>
