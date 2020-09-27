@@ -7,28 +7,149 @@
     </head>
     <body>
         <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <style>
+            * {
+                font-size: 16px;
+            }
+            html,
+            body {
+                margin: 0;
+                font-size: 16px;
+                height: 100%;
+            }
+            #app {
+                height: 100%;
+            }
+            .box-app {
+                background-color: #eeeeee;
+                max-width: 360px;
+                padding: 15px;
+                font-size: 16px;
+                height: 100%;
+                max-height: 510px;
+                position: relative;
+            }
+            .itens {
+                display: flex;
+            }
+            .inputs {
+                display: flex;
+                flex-direction: column;
+                width: 72%;
+                margin-right: 3%;
+            }
+            .inputs input {
+                line-height: 33px;
+                margin-bottom: 8px;
+                border: 1px solid #dddddd;
+                border-radius: 6px;
+                padding: 5px 15px;
+            }
+            .inputs input:focus {
+                outline: none;
+                border: 1px solid #000000;
+            }
+            .submit {
+                width: 25%;
+            }
+            .submit button {
+                width: 100%;
+                border-radius: 6px;
+                background-color: #dddddd ;
+                border: 1px solid #dddddd;
+                line-height: 94px;
+                font-size: 14px;
+            }
+            .submit button:focus {
+                outline: none;
+            }
+            .submit button:hover {
+                color: #ffffff;
+                background: green;
+                border: 1px solid green;
+            }
 
+            .shoplist {
+                list-style: none;
+                padding: 0;
+                line-height: 35px;
+                max-height: 295px;
+                overflow-y: auto;
+            }
+            .shoplist li p {
+                margin: 0;
+            }
+            .shoplist li {
+                display: flex;
+                align-items: center;
+                padding: 0 10px;             
+            }
+            .shoplist li:nth-child(odd){
+                background-color: #dddddd;
+            }
+            .footer {
+                position: absolute;
+                width: calc(100% - 30px);
+                bottom: 0;
+                left: 0;
+                background-color: beige;
+                padding: 15px;
+                text-align: center;                
+            }
+            .footer p {
+                font-size: 20px;
+                line-height: 30px;
+                margin: 0;
+            }
+            .footer strong {
+                font-size: 20px;
+            }
+            .close {
+                background-color: red;
+                border: 0;
+                font-size: 10px;
+                color: #ffffff;
+                font-weight: 700;
+                border-radius: 30px;
+                line-height: 18px;
+                width: 20px;
+            }
+            .close:focus{
+                outline: none;
+            }
+        </style>
         <div id="app">
-            <input placeholder="Novo item" type="text" v-model="novoItem">
-            <input pattern="\d{2},\d{2}" placeholder="Preço dessa desgraça" type="text" v-model="novoPreco">
-            <button @click="inserirFruta()">
-                Inserir essa merda
-            </button>
-            <ul>
-                <li 
-                v-for="(fruta, index) in frutas"
-                >
-                    {{fruta.item}}
-                    {{'R$' + fruta.preco}}
-                    {{fruta.check}}
-                    
-                    <button @click="removerFruta(index)"> X </button>
-                    <input type="checkbox" v-model="fruta.check"></input>
-                    
-                </li>
-            </ul>
-            {{'Total: R$' + totalPreco}}<br>
-            {{'Total Check: R$' + totalCheck}}
+            <div class="box-app">                
+                <div class="itens">
+                    <div class="inputs">
+                        <input placeholder="Item" type="text" v-model="novoItem">
+                        <input pattern="\d{2},\d{2}" placeholder="Preço" type="text" v-model="novoPreco">
+                    </div>
+                    <div class="submit">
+                        <button @click="inserirFruta()">
+                            Adicionar
+                        </button>
+                    </div>
+                </div>               
+                
+                <ul class="shoplist">
+                    <li 
+                    v-for="(fruta, index) in frutas"
+                    >
+                        <input type="checkbox" v-model="fruta.check"></input>
+                        <p style="width: 55%;">{{fruta.item}}</p>
+                        <p style="width: 20%;">{{'R$' + fruta.preco}}</p>
+                        <p style="width: 15%;">{{fruta.check}}</p>                 
+                        <button class="close" @click="removerFruta(index)"> X </button>                                                
+                    </li>
+                </ul>
+                <div class="footer">
+                <p>
+                    <strong>{{'Total: R$' + totalPreco}}</strong><br>
+                    {{'Total Check: R$' + totalCheck}}
+                </p>
+                </div>
+            </div>
         </div>
 
         <script>
