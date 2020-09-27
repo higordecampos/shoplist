@@ -9,15 +9,26 @@
         <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
         <div id="app">
-            <input type="text">
+            <input placeholder="Novo item" type="text" v-model="novoItem">
+            <input pattern="\d{2},\d{2}" placeholder="Preço dessa desgraça" type="text" v-model="novoPreco">
+            <button @click="inserirFruta()">
+                Inserir essa merda
+            </button>
             <ul>
-                <li v-for="fruta in frutas">
-                    {{fruta}}
+                <li 
+                v-for="(fruta, index) in frutas"
+                >
+                    {{fruta.item}}
+                    {{'R$' + fruta.preco}}
+                    {{fruta.check}}
+                    
+                    <button @click="removerFruta(index)"> X </button>
+                    <input type="checkbox" v-model="fruta.check"></input>
+                    
                 </li>
             </ul>
-            <button @click="inserirFruta()">
-                Inserir item
-            </button>
+            {{'Total: R$' + totalPreco}}<br>
+            {{'Total Check: R$' + totalCheck}}
         </div>
 
         <script>
@@ -25,15 +36,68 @@
                 el: "#app",
                 data() {
                     return {
-                        frutas: ['teste1', 'teste2', 'laranja']
+                        novoItem: '',
+                        novoPreco: '',
+                        idItem: 4,
+                        totalPreco: '0',
+                        totalCheck: '0',
+                        frutas: [
+                            {   id: 1,
+                                item: 'teste1',
+                                preco: 10,
+                                check: false
+                                },
+                                {   id: 2,
+                                item: 'teste2',
+                                preco: 20,
+                                check: false
+                                },
+                                {   id: 3,
+                                item: 'test3',
+                                preco: 50.25,
+                                check: false
+                                },
+                                
+                                ]
 
                     }
                 },
                 methods: {
-                    inserirFruta() {
-                        this.frutas.push()
+                    inserirFruta: function () {
+                        this.frutas.push({
+                            id: this.idItem++,
+                            item: this.novoItem,
+                            preco: parseFloat(this.novoPreco),
+                            check: false
+                        })  
+                        this.novoItem = '',
+                        this.novoPreco = '',
+                        this.somaItems()
+                    },
+                    removerFruta: function (index) {
+                        this.frutas.splice(index, 1),
+                        this.somaItems()
                         
+                    },
+                    somaItems() {
+                        this.totalPreco = this.frutas.reduce((totalPreco, valor) => totalPreco + valor.preco, 0);
+                        
+                        console.log('piroca', this.totalPreco)            
+                    },
+
+                    checkTotal() {
+                        this.totalCheck = this.frutas.map( function(frutas){
+                            if(frutas.check == true) {
+                                console.log('piroca', this.totalCheck )
+                            }
+                        }); 
                     }
+                },
+                created() {
+                    this.somaItems()
+                },
+                watch() {
+                    this.fruta.check
                 }
             })
         </script>
